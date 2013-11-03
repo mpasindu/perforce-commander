@@ -35,7 +35,35 @@
 #
 # Copyright 2013 Your name here, unless otherwise noted.
 #
-class perforce-commander {
+
+class perforce-commander(
+  $user       = "rootdddd",
+  $host       = "host",
+  $port       = "8080",
+  $passwd     = '',
+  $p4location = "/usr/bin/",
+  $sync       = false,
+  $p4file     = $::home,
+)
+{
+
+  exec{"echo $passwd | p4 login -p 1> $pwfile/.p4 && sed -i -e \"1d\" $pwfile/.p4 ":
+    path => [$p4location,'/bin'],
+  }
+
+  if $sync ==  true {
+    notify{'sync in':
+
+      }
+      class {perforce-commander::sync:
+        key => $::p4pw
+      }
+  }
+  else {
+    notify{'perforce sync have values false , if need sysnc set into true.':
+    }
+  }
 
 
-}
+
+
