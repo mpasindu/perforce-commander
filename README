@@ -14,8 +14,8 @@ Support
 -------
 
 class {perforce-commander:
-      p4user => "dineshr",
-      passwd => "dops@123",
+      p4user => "test user",
+      passwd => "test password",
       sync => true,
       port => '1697',
       host => '10.180.202.221',
