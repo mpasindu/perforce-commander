@@ -6,7 +6,7 @@ class perforce-commander::sync(
 {
   exec{"p4-sync":
     environment => ["P4CLIENT=${client}","P4USER=${p4user}","P4PORT=10.180.202.221:1697"],
-    command     => "p4 -u ${p4user} -P ${key} sync -f",
+    command     => "p4 -P ${key}  sync -f",
     path        => ["/usr/local/bin/","/usr/bin","/bin"],
     logoutput   => true,
     timeout     => 1800,
