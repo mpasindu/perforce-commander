@@ -29,7 +29,7 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Author Name <Pasindu madubashna Gunarathne mpasindu@gmil.com>
 #
 # === Copyright
 #
@@ -37,33 +37,54 @@
 #
 
 class perforce-commander(
-  $user       = "rootdddd",
-  $host       = "host",
-  $port       = "8080",
-  $passwd     = '',
-  $p4location = "/usr/bin/",
-  $sync       = false,
-  $p4file     = $::home,
+  $p4user           = "rootdddd",
+  $host             = "host",
+  $port             = "8080",
+  $passwd           = '',
+  $p4location       = "/usr/bin/",
+  $sync             = false,
+  $p4file           = $::home,
+  $client           = false,
+  $p4connection     = "${host}:${post}",
+  $cluent           = $::hostname,
+  $root             = '/',
+  $viwe             = [],
+  $tampletelocation = '/data/puppet/template'
 )
 {
 
-  exec{"echo $passwd | p4 login -p 1> $pwfile/.p4 && sed -i -e \"1d\" $pwfile/.p4 ":
-    path => [$p4location,'/bin'],
+  exec{"p4-key-gen":
+    environment => ["P4USER=${p4user}","P4PORT=10.180.202.221:1697"],
+    command     => "echo ${passwd} | p4  login -p 1> ${pwfile}/.p4 && sed -i -e \"1 d\" ${pwfile}/.p4 ",
+    path        => ["${p4location}",'/bin'],
   }
 
   if $sync ==  true {
     notify{'sync in':
 
-      }
-      class {perforce-commander::sync:
-        key => $::p4pw
-      }
+    }
+    class {perforce-commander::sync:
+      require => Exec['p4-key-gen'],
+      key     => $::p4pw,
+      p4user    => $p4user,
+    }
   }
   else {
     notify{'perforce sync have values false , if need sysnc set into true.':
     }
   }
 
+  if $client == true{
+    class{perforce-commander::clientspec:
+      key              => $::p4pw,
+      owner            => $p4user,
+      templatelocation => $templatelocation,
+    }
+  }
+  else {
+    notify{'set client into true ':
 
+    }
+  }
 
-
+}

@@ -13,4 +13,13 @@ Contact
 Support
 -------
 
+class {perforce-commander:
+      p4user => "dineshr",
+      passwd => "dops@123",
+      sync => true,
+      port => '1697',
+      host => '10.180.202.221',
+      client => true,
+    }
+
 Please log tickets and issues at our [Projects site](http://projects.example.com)
