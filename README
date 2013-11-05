@@ -18,7 +18,7 @@ class {perforce-commander:
       passwd => "test password",
       sync => true,
       port => '1697',
-      host => '10.180.202.221',
+      host => '192.168.102.2',
       client => true,
     }
 
