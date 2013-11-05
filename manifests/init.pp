@@ -43,9 +43,9 @@ class perforce-commander(
   $passwd           = '',
   $p4location       = "/usr/bin/",
   $sync             = false,
-  $p4file           = $::home,
+  $p4file           = '/root/.p4',
   $client_creat           = false,
-  $p4connection     = "${host}:${post}",
+  $p4connection     = "${host}:${port}",
   $client           = $::hostname,
   $root             = '/',
   $view             = [],
@@ -53,9 +53,14 @@ class perforce-commander(
 )
 {
 
+  file{$p4file:
+    ensure => "directory",
+  
+  }
+
   exec{"p4-key-gen":
-    environment => ["P4USER=${p4user}","P4PORT=10.180.202.221:1697"],
-    command     => "echo ${passwd} | p4  login -p 1> ${pwfile}/.p4 && sed -i -e \"1 d\" ${pwfile}/.p4 ",
+    environment => ["P4USER=${p4user}","P4PORT=$p4connection"],
+    command     => "echo ${passwd} | p4  login -p 1> ${pwfile}/p4 && sed -i -e \"1 d\" ${pwfile}/p4 ",
     path        => ["${p4location}",'/bin'],
   }
 
@@ -83,6 +88,8 @@ class perforce-commander(
       templatelocation => $templatelocation,
       view             => $view,
       client           => $client,
+      p4port           => $port,
+      p4host           => $host,
     }
   }
   else {

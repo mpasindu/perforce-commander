@@ -4,23 +4,28 @@ This is the perforce-commander module.
 
 License
 -------
+open source
 
 
 Contact
 -------
 
+gmail = mpasindu@gmail.com
+skype = mpasindu
 
-Support
+
+
+Support(mpasindu@gmail.com)
 -------
-
 class {perforce-commander:
-      p4user => "test user",
-      passwd => "test password",
-      sync => true,
-      port => '1697',
-      host => '192.168.102.2',
-      client => true,
-      viwe =
-    }
+      p4user       => "pasindu",
+      passwd       => "password",
+      sync         => true,
+      port         => '1697',
+      host         => '10.1.2.3',
+      client_creat => true,
+      client       => "pasindu-puppet",
+      view         => ["//environments/prodqa/linux/... //pasindu-puppet/opt/p4/..."],
+        }
 
 Please log tickets and issues at our [Projects site](http://projects.example.com)
