@@ -9,12 +9,12 @@ class perforce-commander::clientspec(
   $p4host           = '10.180.202.221',
   $p4connection     = "$p4host:$p4port",
   $key              = '',
-  $templetelocation = '',
+  $templatelocation = '/data/puppet/template',
 )
 
 {
 
-  file{$templetelocation:
+  file{$templatelocation:
     ensure => present,
     content =>  template('perforce-commander/client-spec.erb'),
 
@@ -22,9 +22,9 @@ class perforce-commander::clientspec(
 
   exec {'p4-client':
     environment => ["P4PORT=10.180.202.221:1697","P4CLIENT=${client}","P4USER=${owner}"],
-    command     => "cat $templetelocation: | p4 -u ${owner} -P ${key} client -i",
+    command     => "cat $templatelocation | p4 -u ${owner} -P ${key} client -i",
     path        => ['/bin','/usr/local/bin'],
 
   }
 
-  }
+}

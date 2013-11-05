@@ -20,6 +20,7 @@ class {perforce-commander:
       port => '1697',
       host => '192.168.102.2',
       client => true,
+      viwe =
     }
 
 Please log tickets and issues at our [Projects site](http://projects.example.com)

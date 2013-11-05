@@ -44,12 +44,12 @@ class perforce-commander(
   $p4location       = "/usr/bin/",
   $sync             = false,
   $p4file           = $::home,
-  $client           = false,
+  $client_creat           = false,
   $p4connection     = "${host}:${post}",
-  $cluent           = $::hostname,
+  $client           = $::hostname,
   $root             = '/',
-  $viwe             = [],
-  $tampletelocation = '/data/puppet/template'
+  $view             = [],
+  $templatelocation = '/data/puppet/template'
 )
 {
 
@@ -64,9 +64,11 @@ class perforce-commander(
 
     }
     class {perforce-commander::sync:
-      require => Exec['p4-key-gen'],
-      key     => $::p4pw,
-      p4user    => $p4user,
+      require          => Exec['p4-key-gen'],
+      key              => $::p4pw,
+      p4user           => $p4user,
+      client           => $client,
+
     }
   }
   else {
@@ -74,11 +76,13 @@ class perforce-commander(
     }
   }
 
-  if $client == true{
+  if $client_creat == true{
     class{perforce-commander::clientspec:
       key              => $::p4pw,
       owner            => $p4user,
       templatelocation => $templatelocation,
+      view             => $view,
+      client           => $client,
     }
   }
   else {
