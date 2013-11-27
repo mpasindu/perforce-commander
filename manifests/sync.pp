@@ -5,6 +5,10 @@ class perforce-commander::sync(
   $p4port,
 )
 {
+
+notify{$p4port:
+
+}
   exec{"p4-sync":
     environment => ["P4CLIENT=${client}","P4USER=${p4user}","P4PORT=$p4port"],
     command     => "p4 -P ${key}  sync -f",

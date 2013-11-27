@@ -49,9 +49,14 @@ class perforce-commander(
   $client           = $::hostname,
   $root             = '/',
   $view             = [],
-  $templatelocation = '/data/puppet/template'
+  $templatelocation = '/data/puppet/template1',
+  $p4pw = passwdread()
 )
 {
+
+notify{$p4pw:
+
+}
 
   file{$p4file:
     ensure => "directory",
@@ -60,7 +65,7 @@ class perforce-commander(
 
   exec{"p4-key-gen":
     environment => ["P4USER=${p4user}","P4PORT=$p4connection"],
-    command     => "echo ${passwd} | p4  login -p 1> ${pwfile}/p4 && sed -i -e \"1 d\" ${pwfile}/p4 ",
+    command     => "echo ${passwd} | p4  login -p 1> ${p4file}/p4 && sed -i -e \"1 d\" ${p4file}/p4 ",
     path        => ["${p4location}",'/bin'],
   }
 
@@ -70,9 +75,11 @@ class perforce-commander(
     }
     class {perforce-commander::sync:
       require          => Exec['p4-key-gen'],
-      key              => $::p4pw,
+      key              => $p4pw,
       p4user           => $p4user,
       client           => $client,
+      p4port		=> $p4connection,
+      
 
     }
   }
@@ -83,7 +90,8 @@ class perforce-commander(
 
   if $client_creat == true{
     class{perforce-commander::clientspec:
-      key              => $::p4pw,
+      require		=> Exec['p4-key-gen'],
+      key              => $p4pw,
       owner            => $p4user,
       templatelocation => $templatelocation,
       view             => $view,

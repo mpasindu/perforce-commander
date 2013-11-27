@@ -21,6 +21,7 @@ class perforce-commander::clientspec(
   }
 
   exec {'p4-client':
+    require     => File[$templatelocation],
     environment => ["P4PORT=$p4connection","P4CLIENT=${client}","P4USER=${owner}"],
     command     => "cat $templatelocation | p4 -u ${owner} -P ${key} client -i",
     path        => ['/bin','/usr/local/bin'],
